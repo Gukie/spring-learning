@@ -1,6 +1,7 @@
 package com.lokia.main;
 
 import com.lokia.beans.TestBean1;
+import com.lokia.service.BeanAnnotationTestService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -14,7 +15,16 @@ public class SprintTestMain {
             System.out.println(entry.getKey()+","+entry.getValue());
         }
 
+        System.out.println();
+        System.out.println("TestBean1 instance primary name...");
         TestBean1 testBean1 = context.getBean(TestBean1.class);
         System.out.println(testBean1.getName());
+
+
+        // test service invoke
+        System.out.println();
+        System.out.println("TestBean1 instance primary name...");
+        BeanAnnotationTestService beanAnnotationTestService = context.getBean(BeanAnnotationTestService.class);
+        beanAnnotationTestService.printBeanName();
     }
 }

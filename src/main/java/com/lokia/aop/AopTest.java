@@ -17,14 +17,19 @@ public class AopTest {
 
     //    @Pointcut(value = "execution(* com.alibaba.campus.iengine.service.springtest.beans.TestBean2.*(..))")
     @Around("execution(* com.lokia.beans.TestBean2.*(..))")
-    public void invokeTestBean2(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object invokeTestBean2(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         String name =joinPoint.getTarget().getClass().getName()+"#"+ method.getName();
         String invokeLocation = getInvokeLocation();
-        System.out.println(invokeLocation+" invoke "+ name+" starting...");
-        joinPoint.proceed();
-        System.out.println(invokeLocation+" invoke "+ name+" ending...");
+        try{
+            System.out.println(invokeLocation+" invoke "+ name+" starting...");
+            Object obj =    joinPoint.proceed();
+            System.out.println(invokeLocation+" invoke "+ name+" ending...");
+            return obj;
+        }catch (Exception e){
+             return e;
+        }
     }
 
     private String getInvokeLocation() {
