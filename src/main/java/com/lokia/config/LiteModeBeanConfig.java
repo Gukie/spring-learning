@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 //@Configuration
 public class LiteModeBeanConfig {
     @Order(1)
-    @Bean("lite-TestBean1")
+    @Bean(value = "lite-TestBean1")
     @Primary
     public TestBean1 getTestBean1() {
         TestBean1 result = new TestBean1();

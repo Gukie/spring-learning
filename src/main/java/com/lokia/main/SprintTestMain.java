@@ -2,6 +2,7 @@ package com.lokia.main;
 
 import com.lokia.beans.TestBean1;
 import com.lokia.service.BeanAnnotationTestService;
+import com.lokia.service.SubParentServiceTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -26,5 +27,12 @@ public class SprintTestMain {
         System.out.println("TestBean1 instance primary name...");
         BeanAnnotationTestService beanAnnotationTestService = context.getBean(BeanAnnotationTestService.class);
         beanAnnotationTestService.printBeanName();
+
+        System.out.println();
+        System.out.println("test sub-parent service definition...");
+        SubParentServiceTest subParentServiceTest = context.getBean(SubParentServiceTest.class);
+        subParentServiceTest.test();
+
+//        context.
     }
 }
