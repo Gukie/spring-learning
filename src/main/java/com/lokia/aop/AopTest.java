@@ -7,10 +7,13 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 @Configuration
 @Aspect
 public class AopTest {
+
+    private final static  String basePackage = "com.lokia";
 
     //    @Pointcut(value = "execution(* com.alibaba.campus.iengine.service.springtest.beans.TestBean2.*(..))")
     @Around("execution(* com.lokia.beans.TestBean2.*(..))")
@@ -18,8 +21,28 @@ public class AopTest {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         String name =joinPoint.getTarget().getClass().getName()+"#"+ method.getName();
-        System.out.println("*************************: "+ name+" starting...");
+        String invokeLocation = getInvokeLocation();
+        System.out.println(invokeLocation+" invoke "+ name+" starting...");
         joinPoint.proceed();
-        System.out.println("*************************: "+ name+" ending...");
+        System.out.println(invokeLocation+" invoke "+ name+" ending...");
+    }
+
+    private String getInvokeLocation() {
+        StackTraceElement[]  stackTraceElements = Thread.currentThread().getStackTrace();
+        if(stackTraceElements==null || stackTraceElements.length==0){
+            return "";
+        }
+        String currentCls = AopTest.class.getName();
+        for(StackTraceElement item: stackTraceElements){
+            String declaringCls = item.getClassName();
+            // com.lokia.aop.AopTest
+            if(Objects.equals(declaringCls,currentCls)){
+                continue;
+            }
+            if(declaringCls.startsWith(basePackage) && item.getFileName().endsWith(".java")){
+                return declaringCls+"."+item.getMethodName();
+            }
+        }
+        return "";
     }
 }
