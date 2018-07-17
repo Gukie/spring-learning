@@ -1,10 +1,10 @@
 package com.lokia.main;
 
 import com.lokia.beans.TestBean1;
-import com.lokia.config.LiteModeBeanConfig;
 import com.lokia.service.BeanAnnotationTestService;
-import com.lokia.service.MethodInjectionServiceTest;
+import com.lokia.service.methodinjection.MethodInjectionServiceTest_ApplicationContext;
 import com.lokia.service.SubParentServiceTest;
+import com.lokia.service.methodinjection.MethodInjectionServiceTest_Lookup;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -38,14 +38,21 @@ public class SprintTestMain {
 
 //        method injection
         System.out.println();
-        System.out.println("test method injection...");
-        MethodInjectionServiceTest methodInjectionServiceTest= context.getBean(MethodInjectionServiceTest.class);
+        System.out.println("test method injection with applicationContext...");
+        MethodInjectionServiceTest_ApplicationContext methodInjectionServiceTestApplicationContext = context.getBean(MethodInjectionServiceTest_ApplicationContext.class);
         for(int i =0;i<3;i++){
-            methodInjectionServiceTest.testAutowire();
+            methodInjectionServiceTestApplicationContext.testAutowire();
         }
         System.out.println("------------");
         for(int i =0;i<3;i++){
-            methodInjectionServiceTest.testMethodInject();
+            methodInjectionServiceTestApplicationContext.testMethodInject();
+        }
+
+        System.out.println();
+        System.out.println("test method injection with lookup...");
+        MethodInjectionServiceTest_Lookup lookup = context.getBean(MethodInjectionServiceTest_Lookup.class);
+        for(int i =0;i<3;i++){
+            lookup.test();
         }
 
     }

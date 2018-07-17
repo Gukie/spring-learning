@@ -1,4 +1,4 @@
-package com.lokia.service;
+package com.lokia.service.methodinjection;
 
 import com.lokia.beans.SingletonBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MethodInjectionServiceTest {
+public class MethodInjectionServiceTest_ApplicationContext {
 
     // 如果用这种方式注入，那么singletonBean只有一个，不会每一次都一个新的Bean
     @Autowired
