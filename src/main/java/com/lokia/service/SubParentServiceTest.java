@@ -1,5 +1,6 @@
 package com.lokia.service;
 
+import com.lokia.service.subparent.ParentService;
 import com.lokia.service.subparent.SubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,9 +9,9 @@ import org.springframework.stereotype.Component;
 public class SubParentServiceTest {
 
     @Autowired
-    private SubService subService;
+    private ParentService parentService;
 
     public  void test(){
-        subService.test();
+        parentService.test();
     }
 }

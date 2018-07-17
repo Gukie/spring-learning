@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 //@Configuration
 public class LiteModeBeanConfig {
-    @Order(1)
+//    @Order(1)
     @Bean(value = "lite-TestBean1")
     @Primary
     public TestBean1 getTestBean1() {
