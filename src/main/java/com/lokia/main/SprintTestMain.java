@@ -2,6 +2,7 @@ package com.lokia.main;
 
 import com.lokia.beans.TestBean1;
 import com.lokia.service.BeanAnnotationTestService;
+import com.lokia.service.beaninterface.BeanAnnotationInterfaceServiceTest;
 import com.lokia.service.methodinjection.ApplicationContextMIServiceTest;
 import com.lokia.service.SubParentServiceTest;
 import com.lokia.service.methodinjection.CglibLookupMIServiceTest;
@@ -63,6 +64,11 @@ public class SprintTestMain {
             System.out.println(replacement.generateStr());
             Thread.sleep(2);
         }
+
+        System.out.println();
+        System.out.println("test bean annotation with interface...");
+        BeanAnnotationInterfaceServiceTest beanAnnotationInterfaceServiceTest = context.getBean(BeanAnnotationInterfaceServiceTest.class);
+        beanAnnotationInterfaceServiceTest.test();
 
     }
 }
