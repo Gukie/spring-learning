@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 
 @Service
-public abstract class MethodInjectionServiceTest_Lookup {
+public abstract class CglibLookupMIServiceTest {
 
     public void test(){
         SingletonBean singletonBean = getSingletonBean();

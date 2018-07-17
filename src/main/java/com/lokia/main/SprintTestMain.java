@@ -2,16 +2,17 @@ package com.lokia.main;
 
 import com.lokia.beans.TestBean1;
 import com.lokia.service.BeanAnnotationTestService;
-import com.lokia.service.methodinjection.MethodInjectionServiceTest_ApplicationContext;
+import com.lokia.service.methodinjection.ApplicationContextMIServiceTest;
 import com.lokia.service.SubParentServiceTest;
-import com.lokia.service.methodinjection.MethodInjectionServiceTest_Lookup;
+import com.lokia.service.methodinjection.CglibLookupMIServiceTest;
+import com.lokia.service.methodinjection.replace.ReplacementMIServiceTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
 
 public class SprintTestMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         System.out.println();
         Map<String,TestBean1> nameBeanMap = context.getBeansOfType(TestBean1.class);
@@ -39,7 +40,7 @@ public class SprintTestMain {
 //        method injection
         System.out.println();
         System.out.println("test method injection with applicationContext...");
-        MethodInjectionServiceTest_ApplicationContext methodInjectionServiceTestApplicationContext = context.getBean(MethodInjectionServiceTest_ApplicationContext.class);
+        ApplicationContextMIServiceTest methodInjectionServiceTestApplicationContext = context.getBean(ApplicationContextMIServiceTest.class);
         for(int i =0;i<3;i++){
             methodInjectionServiceTestApplicationContext.testAutowire();
         }
@@ -50,9 +51,17 @@ public class SprintTestMain {
 
         System.out.println();
         System.out.println("test method injection with lookup...");
-        MethodInjectionServiceTest_Lookup lookup = context.getBean(MethodInjectionServiceTest_Lookup.class);
+        CglibLookupMIServiceTest lookup = context.getBean(CglibLookupMIServiceTest.class);
         for(int i =0;i<3;i++){
             lookup.test();
+        }
+
+        System.out.println();
+        System.out.println("test method injection with replacement...");
+        ReplacementMIServiceTest replacement = context.getBean(ReplacementMIServiceTest.class);
+        for(int i =0;i<3;i++){
+            System.out.println(replacement.generateStr());
+            Thread.sleep(2);
         }
 
     }
