@@ -20,6 +20,18 @@ public class LiteModeBeanConfig {
         TestBean2 testBean2 = getTestBean2();
         // 这里将不会被AOP代理，因为 当前是lite 模式
         testBean2.getAge();
+        System.out.println("lite-getTestBean1:"+testBean2);
+        return result;
+    }
+
+    @Bean(value = "lite-TestBean1-1")
+    public TestBean1 getTestBean11() {
+        TestBean1 result = new TestBean1();
+        result.setName("lite-TestBean11");
+        TestBean2 testBean2 = getTestBean2();
+        // 这里将不会被AOP代理，因为 当前是lite 模式
+        testBean2.getAge();
+        System.out.println("lite-getTestBean1-1:"+testBean2);
         return result;
     }
 

@@ -22,14 +22,20 @@ public class FullModeBeanConfig {
         TestBean2 testBean2 = getTestBean2();
         // // 这个阶段的 setName 方法的调用会被 AOP拦截，因为此时 TestBean2 已经在 Spring 容器中了
         testBean2.setName("dd");
+        System.out.println("full-getTestBean1:"+testBean2);
         return result;
     }
 
-    @Bean(value = "full-TestBean1",autowire = Autowire.BY_NAME)
+    @Bean(value = "full-TestBean1-1",autowire = Autowire.BY_NAME)
     @Order(2)
-    public TestBean1 getTestBean3(){
+    public TestBean1 getTestBean11(){
         TestBean1 result = new TestBean1();
         result.setName("full-TestBean1-1");
+
+        TestBean2 testBean2 = getTestBean2();
+        // // 这个阶段的 setName 方法的调用会被 AOP拦截，因为此时 TestBean2 已经在 Spring 容器中了
+        testBean2.setName("dd");
+        System.out.println("full-getTestBean1-1:"+testBean2);
         return result;
     }
 
