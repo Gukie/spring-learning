@@ -16,4 +16,12 @@
     <bean class="com.lokia.service.methodinjection.replace.ReplacementMIServiceTest">
         <replaced-method name="generateStr" replacer="replacementGenerateStr"></replaced-method>
     </bean>
+
+    <!-- abstract parent bean defined-->
+    <bean id="parentBean" abstract="true">
+        <property name="age" value="12"></property>
+    </bean>
+    <bean id="subBean" parent="parentBean" class="com.lokia.beans.subparent.SubBean">
+        <property name="desc" value="sub bean desc"></property>
+    </bean>
 </beans>

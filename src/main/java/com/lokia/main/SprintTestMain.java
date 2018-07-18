@@ -1,6 +1,7 @@
 package com.lokia.main;
 
 import com.lokia.beans.TestBean1;
+import com.lokia.beans.subparent.SubBean;
 import com.lokia.service.BeanAnnotationTestService;
 import com.lokia.service.beaninterface.BeanAnnotationInterfaceServiceTest;
 import com.lokia.service.methodinjection.ApplicationContextMIServiceTest;
@@ -69,6 +70,12 @@ public class SprintTestMain {
         System.out.println("test bean annotation with interface...");
         BeanAnnotationInterfaceServiceTest beanAnnotationInterfaceServiceTest = context.getBean(BeanAnnotationInterfaceServiceTest.class);
         beanAnnotationInterfaceServiceTest.test();
+
+        System.out.println();
+        System.out.println("test abstract sub-parent bean...");
+        SubBean subBean = context.getBean(SubBean.class);
+        System.out.println(subBean);
+//        System.out.println(subBean.getAge());
 
     }
 }
