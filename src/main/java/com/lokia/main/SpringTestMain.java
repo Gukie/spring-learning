@@ -1,19 +1,22 @@
 package com.lokia.main;
 
 import com.lokia.beans.TestBean1;
+import com.lokia.beans.factory.FactoryBean1;
 import com.lokia.beans.subparent.SubBean;
+import com.lokia.beans.subparent.SubBean1;
 import com.lokia.service.BeanAnnotationTestService;
 import com.lokia.service.beaninterface.BeanAnnotationInterfaceServiceTest;
 import com.lokia.service.methodinjection.ApplicationContextMIServiceTest;
 import com.lokia.service.SubParentServiceTest;
 import com.lokia.service.methodinjection.CglibLookupMIServiceTest;
 import com.lokia.service.methodinjection.replace.ReplacementMIServiceTest;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
 
-public class SprintTestMain {
+public class SpringTestMain {
     public static void main(String[] args) throws InterruptedException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         System.out.println();
@@ -76,6 +79,17 @@ public class SprintTestMain {
         SubBean subBean = context.getBean(SubBean.class);
         System.out.println(subBean);
 //        System.out.println(subBean.getAge());
+
+
+//      test factory bean
+        System.out.println();
+        System.out.println("test factory bean...");
+        FactoryBean factoryBean = (FactoryBean) context.getBean("&customFactoryBean");
+        Class<?> cls = factoryBean.getObjectType();
+        System.out.println(cls.getName());
+
+        FactoryBean1 factoryBean1 = (FactoryBean1) context.getBean("customFactoryBean");
+        System.out.println(factoryBean1.getName());
 
     }
 }
