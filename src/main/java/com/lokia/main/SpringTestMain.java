@@ -97,8 +97,9 @@ public class SpringTestMain {
         System.out.println();
         System.out.println("test order bean...");
         BeanOrderTestService beanOrderTestService = context.getBean(BeanOrderTestService.class);
-        beanOrderTestService.test();
+        beanOrderTestService.testOrderInCollection();
         beanOrderTestService.testFetchSingleton();
+        beanOrderTestService.testFetchPrimaryOne();
 
     }
 }

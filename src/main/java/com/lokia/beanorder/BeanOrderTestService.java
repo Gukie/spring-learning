@@ -21,7 +21,7 @@ public class BeanOrderTestService implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    public void test() {
+    public void testOrderInCollection() {
         System.out.println("********* test *********");
         System.out.print(orderBeanList.size());
         for (OrderBean orderBean : orderBeanList) {
@@ -33,6 +33,13 @@ public class BeanOrderTestService implements ApplicationContextAware {
         System.out.println("********* testFetchSingleton *********");
         for (int i = 0; i < 3; i++) {
             OrderBean orderBean = applicationContext.getBean("protoTypeOrderBean3",OrderBean.class);
+            System.out.println(orderBean+"-"+orderBean.getName());
+        }
+    }
+    public void testFetchPrimaryOne() {
+        System.out.println("********* testFetchPrimaryOne *********");
+        for (int i = 0; i < 3; i++) {
+            OrderBean orderBean = applicationContext.getBean(OrderBean.class);
             System.out.println(orderBean+"-"+orderBean.getName());
         }
     }

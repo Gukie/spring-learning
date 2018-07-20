@@ -3,6 +3,7 @@ package com.lokia.beanorder;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 
@@ -23,6 +24,7 @@ public class OrderBeanConfig {
 
     @Bean
     @Order(2)
+    @Primary
     public OrderBean orderBean2(){
         OrderBean orderBean = new OrderBean();
         orderBean.setName("orderBean-2");
