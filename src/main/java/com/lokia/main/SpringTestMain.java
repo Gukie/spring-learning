@@ -1,9 +1,10 @@
 package com.lokia.main;
 
+import com.lokia.beanorder.BeanOrderTestService;
+import com.lokia.beanorder.OrderBean;
 import com.lokia.beans.TestBean1;
-import com.lokia.beans.factory.FactoryBean1;
+import com.lokia.factory.FactoryBean1;
 import com.lokia.beans.subparent.SubBean;
-import com.lokia.beans.subparent.SubBean1;
 import com.lokia.service.BeanAnnotationTestService;
 import com.lokia.service.beaninterface.BeanAnnotationInterfaceServiceTest;
 import com.lokia.service.methodinjection.ApplicationContextMIServiceTest;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.List;
 import java.util.Map;
 
 public class SpringTestMain {
@@ -90,6 +92,13 @@ public class SpringTestMain {
 
         FactoryBean1 factoryBean1 = (FactoryBean1) context.getBean("customFactoryBean");
         System.out.println(factoryBean1.getName());
+
+        // test bean order
+        System.out.println();
+        System.out.println("test order bean...");
+        BeanOrderTestService beanOrderTestService = context.getBean(BeanOrderTestService.class);
+        beanOrderTestService.test();
+        beanOrderTestService.testFetchSingleton();
 
     }
 }
