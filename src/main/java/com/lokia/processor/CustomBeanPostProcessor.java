@@ -2,6 +2,7 @@ package com.lokia.processor;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
  * @data 2018/7/20
  */
 @Component
+@Lazy
 public class CustomBeanPostProcessor implements BeanPostProcessor{
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
