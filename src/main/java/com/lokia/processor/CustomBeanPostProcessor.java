@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
  * @author gushu
  * @data 2018/7/20
  */
-@Component
-@Lazy
+//@Component
+//@Lazy
 public class CustomBeanPostProcessor implements BeanPostProcessor{
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
