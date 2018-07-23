@@ -18,7 +18,7 @@ public class AopTest {
     private final static  String basePackage = "com.lokia";
 
     //    @Pointcut(value = "execution(* com.alibaba.campus.iengine.service.springtest.beans.TestBean2.*(..))")
-    @Around("execution(* com.lokia.beans.TestBean2.*(..))")
+//    @Around("execution(* com.lokia.beans.TestBean2.*(..))")
     public Object invokeTestBean2(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -51,5 +51,18 @@ public class AopTest {
             }
         }
         return "";
+    }
+
+    @Around("execution(* com.lokia.aop.cglib.CglibProxyServiceImpl.*(..))")
+    public void invokeCglib(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("invokeCglib start...");
+        joinPoint.proceed();
+        System.out.println("invokeCglib end...");
+    }
+    @Around("execution(* com.lokia.aop.jdk.JdkDynamicProxyService.*(..))")
+    public void invokeJdkDynamic(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("invoke jdk dynamic start...");
+        joinPoint.proceed();
+        System.out.println("invoke jdk dynamic end...");
     }
 }
