@@ -1,6 +1,5 @@
 package com.lokia.factory;
 
-import com.lokia.beans.factory.FactoryBean1;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.lokia.beans;
+package com.lokia.processor;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;

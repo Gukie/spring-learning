@@ -38,10 +38,11 @@ public class BeanOrderTestService implements ApplicationContextAware {
     }
     public void testFetchPrimaryOne() {
         System.out.println("********* testFetchPrimaryOne *********");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             OrderBean orderBean = applicationContext.getBean(OrderBean.class);
             System.out.println(orderBean+"-"+orderBean.getName());
         }
+        applicationContext.getBeanDefinitionNames();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.lokia.beans.factory;
+package com.lokia.factory;
 
 /**
  * @author gushu
