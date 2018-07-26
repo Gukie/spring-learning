@@ -242,7 +242,7 @@ public class CustomFactoryBean implements FactoryBean<FactoryBean1> {
 16. @Autowired, @Inject, @Resource, and @Value 这些是通过BeanPostProcessor处理的，所以在 BeanPostProcessor或者 BeanFactoryBeanProcessor 中不应该使用它们
 17. Bean的name就是 xml中的id, 比如以下bean，其name为'subBean'
 ```
-	<bean id="subBean" parent="parentBean" class="com.lokia.beans.subparent.SubBean">
+	<bean id="subBean" parent="parentBean" class="com.lokia.spring.beans.subparent.SubBean">
         <property name="desc" value="sub bean desc"></property>
     </bean>
 ```

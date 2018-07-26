@@ -14,7 +14,7 @@
     <!--<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>-->
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
-    <bean class="com.lokia.service.methodinjection.replace.ReplacementMIServiceTest">
+    <bean class="com.lokia.spring.service.methodinjection.replace.ReplacementMIServiceTest">
         <replaced-method name="generateStr" replacer="replacementGenerateStr"></replaced-method>
     </bean>
 
@@ -22,7 +22,7 @@
     <bean id="parentBean" abstract="true">
         <property name="age" value="12"></property>
     </bean>
-    <bean id="subBean" parent="parentBean" class="com.lokia.beans.subparent.SubBean">
+    <bean id="subBean" parent="parentBean" class="com.lokia.spring.beans.subparent.SubBean">
         <property name="desc" value="sub bean desc"></property>
     </bean>
 </beans>
