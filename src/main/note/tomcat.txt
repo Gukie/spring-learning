@@ -1,0 +1,3 @@
+
+## 术语
+Context - In a nutshell, a Context is a web application.
