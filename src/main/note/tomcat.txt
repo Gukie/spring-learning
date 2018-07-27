@@ -1,3 +1,55 @@
+## refer:
+- http://tomcat.apache.org/tomcat-9.0-doc/introduction.html
+
+## 调优
+- 可以调整 tomcat 的线程数，以支持更多的请求(Connector之间共享或者Connector内部的)
+- 可以调整 connector 的keepAliveTimeout参数，以减少连接创建的次数：一个connection，在一个request处理完之后，下一个request到来之前等待的时间
+
 
 ## 术语
 Context - In a nutshell, a Context is a web application.
+
+
+## HTTP Connector
+
+
+### 线程池
+1. 每个Service下，都有一个线程池，称为：Executor； 它是当前Service下的各个Connector之间共用的. 
+2. 如果Service下没有定义Executor，那么每个Connector会有自己的internal thread pool; 他们的优先级是： 优先使用Connector之间共享的，而非Connector内部的
+2. 每一个请求过来，connector 都会分配一个线程给它，直到该请求结束，该线程才会被收回放到线程池中
+3. 当请求数超过一定数量，线程池里面的线程数不够时
+	3.1. 当此时线程池中的线程数没有达到 maxThreads，会创建额外的线程去处理新的请求
+	3.2. 如果线程数已经达到 maxThreads，但还是有新的请求过来，但是新的请求数小于 acceptCount，此时该请求会被阻塞起来，等待被处理
+	3.3. 如果阻塞的请求数量已经达到 acceptCount，但是还有新的请求过来，此时会被拒绝. 客户端会收到 "connection refused"
+4. connector中有一个参数叫 'executor'，可以配置让当前connector使用外部的executor; 如果没有配置，则会使用自己私有的线程池	
+5. 参数 maxConnections vs maxThreads
+	5.1. maxConnections, connector能接受的最大连接数; 一个连接关闭之前, 可以处理多个请求
+	5.2. maxThreads,指的是connector同时能处理多少请求
+
+>Each incoming request requires a thread for the duration of that request. If more simultaneous requests are received than can be handled by the currently available request processing threads, additional threads will be created up to the configured maximum (the value of the maxThreads attribute). If still more simultaneous requests are received, they are stacked up inside the server socket created by the Connector, up to the configured maximum (the value of the acceptCount attribute). Any further simultaneous requests will receive "connection refused" errors, until resources are available to process them.
+
+### protocol - connector的选择
+```
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+```
+1. HTTP Connector的 protocol，默认是 'HTTP/1.1'. 所使用的connect就会在以下两种connect中自动切换了：
+	1.1. APR/native connector. (如果 tomcat的native library可以被找到, 比如环境变量PATH中配置了)
+	1.2. Java NIO based connector(上面那种connector不适用的时候)
+	1.3. 可以显式的指定 使用的connector，即将protocol的值显式指定为以下的其中一种：
+		1.3.1. org.apache.coyote.http11.Http11NioProtocol - non blocking Java NIO connector
+		1.3.2. org.apache.coyote.http11.Http11Nio2Protocol - non blocking Java NIO2 connector
+		1.3.3. org.apache.coyote.http11.Http11AprProtocol - the APR/native connector.
+		1.3.4. 从官网来看，他们之间的不同之处在与 SSL上，比如 APR在SSL handshake(握手)阶段，是blocking的，而其他两个是 non-blocking
+
+
+	
+### SSL 
+#### how to configure
+- please refer to apache document :apache-tomcat-9.0-doc/ssl-howto.html
+#### Certificate 
+一个证书(Certificate)，需要被签名，才能被认可使用; 签名的方式有两种： 第三方机构签名 和 自签
+
+1. CA(Certificate Authorities): 第三方证书签名机构; 只有经过这种方式签名的证书，在使用时，浏览器才不会报warning
+2. 自签：证书由自己签名，一般用于测试场景
