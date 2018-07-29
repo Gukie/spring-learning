@@ -110,3 +110,28 @@ Empty String		42					##42				ROOT##42			ROOT##42.xml, ROOT##42.war, ROOT##42
 可以定义一份 context，供多个应用程序使用. 但是每个应用程序在使用的时候，都是 copy一份，相互之间是独立的(相当于是一个继承关系); 自定义的context中的配置会覆盖其父类context的配置
 1. $CATALINA_BASE/conf/context.xml: 这里配置的信息，会被所有的应用程序加载 - 这里的是Global的
 2.  $CATALINA_BASE/conf/[enginename]/[hostname]/context.xml.default： 会被该host下的所有应用程序加载 - 这里是次Global的; 而自定义的，是最终落地的
+
+#### context default
+```
+	<Host name="localhost"  appBase="my-webapps"
+            unpackWARs="false" autoDeploy="false">
+
+        <!-- SingleSignOn valve, share authentication between web applications
+             Documentation at: /docs/config/valve.html -->
+        <!--
+        <Valve className="org.apache.catalina.authenticator.SingleSignOn" />
+        -->
+		
+		<Context path="" docBase="D:\\software\\apache-tomcat-9.0.10\\webapps\\ROOT"></Context> <!--必须要有一个default的context，否则 http://localhost:{port} 不会拿到任何数据 -->
+		<Context path="/sample" docBase="non-mine/sample"></Context>
+		<Context path="/example" docBase="D:\\software\\apache-tomcat-9.0.10\\webapps\\examples"></Context>
+
+        <!-- Access log processes all example.
+             Documentation at: /docs/config/valve.html
+             Note: The pattern used is equivalent to using pattern="common" -->
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+
+      </Host>
+```
