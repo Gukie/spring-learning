@@ -4,7 +4,7 @@
 ## 调优
 - 可以调整 tomcat 的线程数，以支持更多的请求(Connector之间共享或者Connector内部的)
 - 可以调整 connector 的keepAliveTimeout参数，以减少连接创建的次数：一个connection，在一个request处理完之后，下一个request到来之前等待的时间
-
+- 可以在 Engine或者Context或者Host下配置 <valve> 对一些黑名单对域名或者IP进行过滤，这denied掉
 
 ## 术语
 Context - In a nutshell, a Context is a web application.
