@@ -1,7 +1,10 @@
 ## refer:
 - http://tomcat.apache.org/tomcat-9.0-doc/introduction.html
+- https://blog.csdn.net/qq_16681169/article/details/75003640 (tomcat 线程模型)
+- https://yq.aliyun.com/articles/2889?spm=5176.100239.blogcont39093.8.s7Uavb (tomcat 线程模型)
 
 ## 调优
+- 修改Connector的protocol为 NIO
 - 可以调整 tomcat 的线程数，以支持更多的请求(Connector之间共享或者Connector内部的)
 - 可以调整 connector 的keepAliveTimeout参数，以减少连接创建的次数：一个connection，在一个request处理完之后，下一个request到来之前等待的时间
 - 可以在 Engine或者Context或者Host下配置 <valve> 对一些黑名单对域名或者IP进行过滤，这denied掉
@@ -150,4 +153,45 @@ Empty String		42					##42				ROOT##42			ROOT##42.xml, ROOT##42.war, ROOT##42
 		2.1. 在conf/server.xml中，是有效的，它是相对 appBase的相对路径
 		2.2. 在conf/server.xml外，需要注意的是，docBase指定的相对路径不能在appBase目录下; 除此之外没有限制
 
+		
+### classloader
+1. tomcat里的classloader的层级关系
+
+	Bootstrap			: $JAVA_HOME/jre/lib + $JAVA_HOME/jre/lib/ext 中的 类
+		|
+	  System			: $CLASSPATH 定义的 类
+		|
+	  Common			: $CATALINA_BASE/lib + $CALINA_HOME/lib 中的类
+	   /   \
+   Webapp1 Webapp2 ...	: 应用程序中 /WEB-INF/classes+/WEB-INF/lib 中的类, 对其他应用程序不可见
+   
+   
+2. tomcat加载类的顺序
+   在web应用程序中，当一个加载类的请求过来，tomcat默认会按以下顺序找类，找到就结束
+	 1. Bootstrap
+	 2. 使用当前web应用程序的classloader，去：
+		2.1. /WEB-INF/classes
+		2.2. /WEB-INF/lib
+	 3. System
+	 4. Common
+	 
+	如果在 context下配置了classloader，并且为其配置了 <Loader delegate="true"/>，那么加载顺序就会按照 Java默认的委派双亲方式进行加载:
+	1. Bootstrap
+	2. System
+	3. Common
+	4. WebappX
+		4.1. /WEB-INF/classes
+		4.2. /WEB-INF/lib
+  
 	
+### tomcat线程模型
+可以从tomcat源码 AbstractEndPoint::start() 中得知其线程模型
+1. 首先，tomcat采用的是 acceptor-worker 的线程模型进行工作的
+2. 启动的时候，会做：
+	2.1. 启动acceptor 线程，数量： 1个
+	2.2. 启动Poller线程，数量： 2个 (只有NioEndpoint才会，Nio2Endpoint不会启动这个)
+	2.3. 创建一个线程池，默认是： 最小线程数10， 最大线程数200 (这里的线程，是正真的 worker线程)
+	
+3. 一个连接过来的时候
+	3.1. 如果是NioEndpoint， 会将它放到 PollerEventQueue中，然后 Poller线程会从其中取，然后创建 SocketProcessor(一个线程) 放到线程池中进行处理
+	3.2. 如果是Nio2Endpoint， 会直接创建SocketProcessor，交给线程池进行处理; 因为它没有 PollerEventQueue
