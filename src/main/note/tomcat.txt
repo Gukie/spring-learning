@@ -189,7 +189,7 @@ Empty String		42					##42				ROOT##42			ROOT##42.xml, ROOT##42.war, ROOT##42
 1. 首先，tomcat采用的是 acceptor-worker 的线程模型进行工作的
 2. 启动的时候，会做：
 	2.1. 启动acceptor 线程，数量： 1个
-	2.2. 启动Poller线程，数量： 2个 (只有NioEndpoint才会，Nio2Endpoint不会启动这个)
+	2.2. 启动Poller线程，数量： 最多2个，取<2,机器处理器>的最小值 (只有NioEndpoint才会，Nio2Endpoint不会启动这个)
 	2.3. 创建一个线程池，默认是： 最小线程数10， 最大线程数200 (这里的线程，是正真的 worker线程)
 	
 3. 一个连接过来的时候
