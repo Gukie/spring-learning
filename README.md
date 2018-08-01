@@ -1,4 +1,4 @@
-## spring related knowledge.
+## spring related knowledge. It has been moved to learning repository as a sub-module, and this one will not maintain anymore.
 
 ### refer
 - https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-java
